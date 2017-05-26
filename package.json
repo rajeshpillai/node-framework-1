@@ -1,0 +1,16 @@
+{
+  "name": "frontend-fm",
+  "version": "1.0.0",
+  "description": "A minimilistic front end framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "frontend",
+    "javascript",
+    "router"
+  ],
+  "author": "Rajesh Pillai",
+  "license": "MIT"
+}
