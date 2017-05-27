@@ -13,7 +13,9 @@
   ],
   "author": "Rajesh Pillai",
   "license": "MIT",
-  "dev-dependencies": {
-    "http-server": "^0.10.0"
+  "dev-dependencies": {},
+  "dependencies": {
+    "global": "^4.3.2",
+    "watch-http-server": "^0.7.6"
   }
 }

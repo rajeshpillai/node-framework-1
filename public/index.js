@@ -14,6 +14,7 @@ var posts = [
 var router = new Router();
 
 router.map(function () {
-    this.route("about", { path: '/about'});
+    this.route("posts", { path: '/posts'});
+    this.route("post", { path: '/posts/:permalink'});
     this.route("favorites", { path: '/favs'});
 });
