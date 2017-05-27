@@ -12,5 +12,8 @@
     "router"
   ],
   "author": "Rajesh Pillai",
-  "license": "MIT"
+  "license": "MIT",
+  "dev-dependencies": {
+    "http-server": "^0.10.0"
+  }
 }
