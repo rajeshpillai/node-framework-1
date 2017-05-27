@@ -14,7 +14,7 @@ Router.prototype._setupEvents = function () {
     Array.prototype.slice.call(elems).forEach(function (e, i) {
        e.addEventListener("click", function (e) {
             e.preventDefault();
-            console.log("CLCIKCED: ", e.target.pathname);
+            console.log("CLICKED: ", e.target.pathname);
             self.navigate(e.target.pathname);
        });
     });
@@ -50,6 +50,15 @@ Router.prototype.load = function () {
     var routeName = url.replace("/", "");
     console.log("url: ", url, routeName,this.routes);
 
+
     var handler = this.routes[routeName];
     console.log("handler: ", handler);
+
+    require(`/routes/${routeName}.js`, function () {
+        render(routeName);
+    });
+}
+
+Router.prototype.transitionTo = function (routeName) {
+    this.navigate(routeName);
 }
