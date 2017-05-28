@@ -3,7 +3,7 @@ var Router = function () {
     this.routes = {};
     this.usePushState = !!(window.history && window.history.pushState); 
     this._setupEvents();
-
+    this.start();
 };
 
 Router.prototype._setupEvents = function () {
@@ -13,16 +13,19 @@ Router.prototype._setupEvents = function () {
         e.preventDefault();
         console.log(e);
         if (e.target.tagName == 'A') {
-           self.navigate(e.target.pathname);
+            self.navigate(e.target.pathname);
         }
-     });
+    });
+}
 
-     if (this.usePushState) {
-         $(window).on("popstate", self.load);
-     } else{
-         $(window).on("hashchange", self.load);
-     }
-  }
+Router.prototype.start = function () {
+    var self = this;
+    if (self.usePushState) {
+        $(window).on("popstate", self.load.bind(self));
+    } else{
+        $(window).on("hashchange", self.load.bind(self));
+    }
+}
 
 Router.prototype.map = function (callback) {
     callback.call(this);
@@ -47,7 +50,7 @@ Router.prototype.navigate = function (path) {
 }
 
 Router.prototype.load = function () {
-    console.trace();
+    console.log(this);
     var self = this;
     console.log("PUSH STATE: ", self.usePushState);
     if (self.usePushState) {
@@ -66,12 +69,15 @@ Router.prototype.load = function () {
 
     var baseNameArray = routeName.split('/');
     var baseRouteName = baseNameArray[0];
-    console.log("routeParts: ",url, baseNameArray);
+    console.log("routeParts: ",url, baseNameArray, baseRouteName);
     var handler = this.routes[baseRouteName];
     
     console.log("url: ", url, routeName,self.routes, handler);
 
-
+    if (baseRouteName == "") {
+        window.location = "/";
+        return;
+    }
     //: REFACTOR
     require(`/routes/${baseRouteName}.js`, function () {
         render(baseRouteName, {qs: baseNameArray[1]});
