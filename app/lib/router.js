@@ -32,6 +32,8 @@ Router.prototype.map = function (callback) {
 }
 
 Router.prototype.route = function (routeName, options) {
+    var path = options.path.replace(/:\w+/g,'([^/?]+)');
+    options.regex  = new RegExp("^" + path + "$");
     this.routes[routeName] = new Route(options);
 }
 
@@ -50,7 +52,6 @@ Router.prototype.navigate = function (path) {
 }
 
 Router.prototype.load = function () {
-    console.log(this);
     var self = this;
     console.log("PUSH STATE: ", self.usePushState);
     if (self.usePushState) {
@@ -61,17 +62,25 @@ Router.prototype.load = function () {
     }
     var routeName = url.replace("/", "");
 
-    console.log("DEBUG: ");
-    console.log("pathname: ", location.pathname);
-    console.log("hash: ", location.hash);
-    console.log("url: ", url);
-    console.log("routeName: ", routeName);
 
     var baseNameArray = routeName.split('/');
     var baseRouteName = baseNameArray[0];
     console.log("routeParts: ",url, baseNameArray, baseRouteName);
-    var handler = this.routes[baseRouteName];
     
+    //var handler = this.routes[baseRouteName];
+    //loop through and get the match based on path
+
+    var handler = null;    
+    for(var obj in this.routes) {
+        var route = self.routes[obj];
+        console.log(`matching ${url} to ${route.options.regex}`);
+        if (url.match(route.options.regex)) {
+            handler = route;
+            break;
+        }
+    }
+
+    console.log("found handler: ", handler);
     console.log("url: ", url, routeName,self.routes, handler);
 
     if (baseRouteName == "") {
