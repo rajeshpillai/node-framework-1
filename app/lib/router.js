@@ -74,7 +74,9 @@ Router.prototype.load = function () {
     for(var obj in this.routes) {
         var route = self.routes[obj];
         console.log(`matching ${url} to ${route.options.regex}`);
-        if (url.match(route.options.regex)) {
+        var match = url.match(route.options.regex);
+        console.log("Match: ", match);
+        if (match && (match.length > 0)) {
             handler = route;
             break;
         }
